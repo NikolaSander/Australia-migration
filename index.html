@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset=utf-8>
+	<title>Internal Migration in Australia, 1976-2006</title>
+	<meta name=description content="Internal Migration in Australia: New harmonised data on flows between states and statistical divisions.">
+	<meta name=viewport content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="web_favicon.png" width="16" height="16" type="image/png">
+	<link href="dist/app-v1.css" rel="stylesheet" media="all">
+
+	<!--[if lt IE 9]><script src=javascripts/html5shiv-printshiv.js></script><![endif]-->
+  <script src="dist/app-v1.js"></script>
+</head>
+<body>
+  <div id=container class="container">
+
+    <div class="social-wrap">
+      <div class="social">
+        <div class="fb-like" data-send="false" data-layout="button_count" data-width="90px" data-show-faces="false" data-font="lucida grande"></div>
+        <div id="plusone-div"></div>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="Internal Migration in Australia"></a>
+        <div class="clear"></div>
+      </div>
+    </div>
+
+  	<header role="banner">
+  		<h1>Internal Migration in Australia</h1>
+       <div class="lead-in">
+        Explore migration flows between and within Australia's states between 1976 and 2006. Click on a state to discover flows TSD-by-TSD.
+      </div>
+      <div class="credits">
+        by Nikola, Elin, Tom & Martin
+		<br>
+        at the University of Queensland & The Vienna Institute of Demography
+      </div>
+	  
+      <hr>
+  	</header>
+  	
+  	<div class="wrap">
+  		<main role="main">
+        <nav role=navigation>
+          <div id="timeline"></div>
+        </nav>
+        <div id="diagram"></div>
+  		</main>
+	</div>
+
+	<footer role="contentinfo">
+
+      <hr>
+
+      <div class="column-wrap-2">
+
+ 		<div class="column">
+		<div class="column-item">
+          <h3>More details</h3>
+          <p>some research note</p>
+          <p>some more notes</p>
+		  <p>Create this interactive plot with your own data! <a href="https://github.com/jo/circular-migration-plot"  target="_blank">All code on GitHub</a></p> 
+ 		</div>
+		</div>
+
+
+        <div class="column">
+		<div class="column-item">
+          <h3>Credits</h3>
+          <p>
+            Provided by<br>
+            UQ LOGO
+          </p>
+          <p>Coded by <a href="http://null2.net"><img src="images/null2.png"></a></p>
+          <p>Screendesign by <a href="http://elvirastein.com/">Elvira Stein</a></p>
+          <p>Inspired by Martin Krzywinski's <a href="http://circos.ca/">Circos</a> and Mike Bostock’s <a href="http://d3js.org/">D3.js</a>.</p>
+        </div>
+		</div>
+		
+	  <div class="clear"></div>
+      </div>
+
+      <hr>
+
+      <div class="license">
+        Version <span class="version">1.0.1 (June 2014)</span>. 
+        This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License.</a>
+        <a href="http://creativecommons.org/licenses/by-nc/3.0/"><img src="images/by-nc.png"></a>
+      </div>
+	  
+	<hr>
+	  
+	   <div class="column-wrap-2">        
+        <div class="column">
+          <div class="column-item">
+            <h2>About the Data</h2>
+            <p>
+              The Australian Internal Migration (GIM) database holds 5-year migration flows between 69 temporally-consistent statistical districts. The data are drawn from the Australian population census and cover the period 1976-81 to 2001-06. 
+			  The data are directly comparable across time and capture the number of migrant transitions over 5-year periods. 
+            </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="column-item">
+            <h2>About the plot</h2>
+            <p>
+			  The circular plot shows directional flows between 69 temporally-consistent statistical divisions of Australia. Only flows containing at least 1,000 migrants are shown. 
+			  The window that pops up when hovering over the plot indicates the annual number of inflows and outflows.
+            </p>
+            <div class="center">
+              <a href="http://github.com/null2/globalmigration" class="button">
+                Source Code on Github
+              </a>
+             </div>
+          </div>
+        </div>
+
+        <div class="clear"></div>
+</div>
+    <hr>
+   
+ 	<br><br>
+
+  	</footer>
+
+    <div id=help-wrapper class=help-wrapper>
+      <div class="help" id="help">
+        <div class="tab">How to read the plot</div>
+        <div class="help-content">
+          <h3>How to read the plot</h3>
+          <img src="web_favicon.png" class="left">
+          <p>
+            Origins and destinations are represented by the circle’s segments. 
+            Each region/county is assigned a colour. 
+            Flows have the same colour as their origin and the width indicates their size. 
+            The direction of the flow is also shown by the gap between flow and county/region: small gap indicates origin; large gap indicates destination. 
+            <b>Click on a segment to switch between county and region view.</b>
+          </p>
+          <div class="clear"></div>
+          <p>
+            Switch between time periods using Ctrl and number keys (1,2,3,4); 
+            reset the plot using Ctrl and r; zoom in/out with Ctrl and +/- 
+          </p>
+
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // help
+    (function() {
+      var help = d3.select('#help');
+
+      help.on('click', function() {
+        var isActive = help.classed('active');
+
+        help
+          .classed('active', !isActive)
+          .transition()
+          .style('width', isActive ? '30px' : '572px');
+      });
+
+      function helpOffset() {
+        var offset = Math.max((document.body.clientWidth - document.getElementById('container').clientWidth) / 2, 0);
+
+        help.style('right', offset + 'px');
+      }
+      d3.select(window).on('resize.help-resize', helpOffset);
+      helpOffset();
+    })();
+  </script>
+
+
+  <script>
+    (function() {
+      var datafile = 'json/data.json';
+      var aLittleBit = Math.PI / 100000;
+
+      d3.json(datafile, function(data) {
+        var now = 2001;
+        var chart = Globalmigration.chart(data, {
+          element: '#diagram',
+          now: now,
+          animationDuration: 500,
+          margin: 125,
+          arcPadding: 0.04,
+          layout: {
+            threshold: 3500,
+            labelThreshold: 3500,
+            colors: 'FA6A21 CC00FF 00469A 007AD6 50B4FF 007D00 00C470 7DDB00 B1FF33 FFDB00 00BDFF 47E5FF D02300'.split(' ').map(function(c) { return '#' + c; })
+          }
+        });
+
+        Globalmigration.timeline(chart, {
+          now: now,
+          element: '#timeline'
+        });
+
+        chart.draw(now);
+      });
+    })();
+  </script>
+
+  <div id="fb-root"></div>
+
+  <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+    {"parsetags": "explicit"}
+  </script>
+
+  <script>
+    (function() {
+      function loadScript(d,s,l,id){
+        var js,
+        fjs=d.getElementsByTagName(s)[0],
+        p=/^http:/.test(d.location)?'http':'https';
+        if(!id || !d.getElementById(id)){
+          js=d.createElement(s);
+          js.id=id;
+          js.src=p+'://' + l;
+          fjs.parentNode.insertBefore(js,fjs);
+        }
+      }
+
+      loadScript(document, 'script', 'connect.facebook.net/en_US/all.js#xfbml=1', 'facebook-jssdk');
+      if (typeof gapi === 'object') {
+        gapi.plusone.render("plusone-div", {size: 'medium', annotation: 'bubble', width: '250px'});
+      }
+      loadScript(document, 'script', 'platform.twitter.com/widgets.js', 'twitter-wjs');
+    })();
+  </script>
+  
+  
+  <!-- this is a new google analytics tag for german-migration.info
+   <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+   ga('create', 'UA-51928490-1', 'german-migration.info');
+   ga('send', 'pageview');
+    </script>-->
+  
+</body>
+</html>
